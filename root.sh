@@ -36,11 +36,10 @@ sudo lsattr /etc/passwd /etc/shadow >/dev/null 2>&1
 sudo chattr -i /etc/passwd /etc/shadow >/dev/null 2>&1
 sudo chattr -a /etc/passwd /etc/shadow >/dev/null 2>&1
 sudo lsattr /etc/passwd /etc/shadow >/dev/null 2>&1
-$1 = sshport
-$2 = password
 
 
-sudo sed -i "s/^#\?Port.*/Port $sshport/g" /etc/ssh/sshd_config;
+echo root:$2 | sudo chpasswd root
+sudo sed -i "s/^#\?Port.*/Port $1/g" /etc/ssh/sshd_config;
 sudo sed -i "s/^#\?PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config;
 sudo sed -i "s/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config;
 
@@ -48,7 +47,7 @@ sudo service ssh restart >/dev/null 2>&1 # 某些VPS系统的ssh服务名称为s
 sudo service sshd restart >/dev/null 2>&1
 
 yellow "VPS root登录信息设置完成！"
-green "VPS登录地址：$IP:$sshport"
+green "VPS登录地址：$IP:$1"
 green "用户名：root"
-green "密码：$password"
+green "密码：$2"
 yellow "请妥善保存好登录信息！然后重启VPS确保设置已保存！"
