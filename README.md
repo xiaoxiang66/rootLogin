@@ -7,7 +7,7 @@
 首先使用`sudo -i`登录root用户（如果登录用户为非root时），然后执行以下命令
 
 ```shell
-bash <(curl -Lso- https://raw.githubusercontents.com/Misaka-blog/rootLogin/master/root.sh)
+bash <(curl -Lso- https://raw.githubusercontent.com/xiaoxiang66/rootLogin/master/root.sh)
 ```
 
 最后设置SSH端口和密码即可
