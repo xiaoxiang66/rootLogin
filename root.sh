@@ -37,21 +37,14 @@ sudo chattr -i /etc/passwd /etc/shadow >/dev/null 2>&1
 sudo chattr -a /etc/passwd /etc/shadow >/dev/null 2>&1
 sudo lsattr /etc/passwd /etc/shadow >/dev/null 2>&1
 
-read -p "输入即将设置的SSH端口（如未输入，默认22）：" sshport
-[ -z $sshport ] && red "端口未设置，将使用默认22端口" && sshport=22
-read -p "输入即将设置的root密码：" password
-[ -z $password ] && red "端口未设置，将使用随机生成的root密码" && password=$(cat /proc/sys/kernel/random/uuid)
-echo root:$password | sudo chpasswd root
 
-sudo sed -i "s/^#\?Port.*/Port $sshport/g" /etc/ssh/sshd_config;
+echo root:$2 | sudo chpasswd root
+
+sudo sed -i "s/^#\?Port.*/Port $1/g" /etc/ssh/sshd_config;
 sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config;
 sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 
 sudo service ssh restart
 sudo service sshd restart
 
-yellow "VPS root登录信息设置完成！"
-green "VPS登录地址：$IP:$sshport"
-green "用户名：root"
-green "密码：$password"
-yellow "请妥善保存好登录信息！然后重启VPS确保设置已保存！"
+
